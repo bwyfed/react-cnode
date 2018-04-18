@@ -1,0 +1,17 @@
+{
+  "name": "react-cnode-teach",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bianwangyang",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.3.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.6.0"
+  }
+}
