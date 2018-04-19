@@ -2,8 +2,9 @@
  * Created by BWY on 2018/4/18.
  */
 const path = require('path');
-
+const isDev = process.env.NODE_ENV === 'development'
 module.exports = {
+	mode: isDev?'development':'production',
 	target: 'node',
 	entry: {
 		app: path.join(__dirname,'../client/server-entry.js')

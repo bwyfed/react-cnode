@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development'
 console.log('isDev:'+isDev);
 const config = {
-	mode: 'none',
+	mode: isDev?'development':'production',
 	entry: {
 		app: path.join(__dirname,'../client/app.js')
 	},
