@@ -49,7 +49,7 @@ module.exports = function(app) {
 	}))
 	app.get("*",function(req, res){
 		getTemplate().then(template=>{
-			const content = ReactDomServer.renderToServer(serverBundle)
+			const content = ReactDomServer.renderToString(serverBundle)
 			res.send(template.replace('<!-- app -->',content))
 		})
 	})
