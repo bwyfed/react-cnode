@@ -2,8 +2,10 @@
  * Created by BWY on 2018/4/18.
  */
 const path = require('path');
+const webpackMerge = require('webpack-merge')
+const baseConfig = require('./webpack.base')
 const isDev = process.env.NODE_ENV === 'development'
-module.exports = {
+module.exports = webpackMerge(baseConfig, {
 	mode: isDev?'development':'production',
 	target: 'node',
 	entry: {
@@ -11,23 +13,6 @@ module.exports = {
 	},
 	output: {
 		filename: 'server-entry.js',
-		path: path.join(__dirname, '../dist'),
-		publicPath: '/public',
 		libraryTarget: "commonjs2"
 	},
-	module: {
-		rules: [
-			{
-				test: /\.jsx$/,
-				loader: 'babel-loader'
-			},
-			{
-				test: /\.js$/,
-				loader: 'babel-loader',
-				exclude: [
-					path.join(__dirname, '../node_modules')
-				]
-			}
-		]
-	}
-}
+})

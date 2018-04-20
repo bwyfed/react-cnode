@@ -9,7 +9,8 @@ import App from './App.jsx'
 // ReactDOM.hydrate(<App />, document.getElementById('root'));
 const root = document.getElementById('root');
 const render = (Component) => {
-  ReactDOM.hydrate(
+  const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate
+  renderMethod(
     <AppContainer>
       <Component />
     </AppContainer>,
