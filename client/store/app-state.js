@@ -1,7 +1,7 @@
 /**
  * Created by Hello on 2018/4/22.
  */
-import { observable, computed, autorun, action } from 'mobx'
+import { observable, computed, action } from 'mobx'
 
 class AppState {
   @observable count = 0
@@ -19,6 +19,7 @@ class AppState {
 
 const appState = new AppState()
 // 测试用代码
+/*
 autorun(() => {
   console.log(appState.msg)
 })
@@ -26,5 +27,5 @@ autorun(() => {
 setInterval(() => {
   appState.add()
 }, 1000)
-
+*/
 export default appState

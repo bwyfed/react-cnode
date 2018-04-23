@@ -23,6 +23,9 @@ app.use(session({
 }))
 
 app.use(favicon(path.join(__dirname, '../favicon.ico')))
+// 代理API接口
+app.use('/api/user', require('./util/handle-login'))
+app.use('/api', require('./util/proxy'))
 if (!isDev) {
   const serverEntry = require('../dist/server-entry.js').default
   const template = fs.readFileSync(path.join(__dirname,'../dist/index.html'),'utf8');
