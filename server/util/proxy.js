@@ -1,4 +1,5 @@
 const axios = require('axios')
+const querystring = require('query-string')
 
 const baseUrl = 'https://cnodejs.org/api/v1'
 
@@ -7,23 +8,25 @@ module.exports = function (req, res, next) {
   const user = req.session.user || {}; // 用户有没有登录
   const needAccessToken = req.query.needAccessToken;  //判断接口是否需要accessToken
 
-  if (needAccessToken && user.accessToken) {
+  if (needAccessToken && !user.accessToken) {
     res.status(401).send({
       success: false,
       msg: 'need login'
     })
   }
-
-  const query = Object.assign({}, req.query)
+  // 不同的请求方法上，都携带accesstoken
+  const query = Object.assign({}, req.query, {
+    accesstoken: (needAccessToken && req.method === 'GET') ? user.accessToken : ''
+  })
   if (query.needAccessToken) delete query.needAccessToken
   axios(`${baseUrl}${path}`, {
     method: req.method,
     params: query,
-    data: Object.assign({}, req.body, {
-      accesstoken: user.accessToken
-    }),
+    data: querystring.stringify(Object.assign({}, req.body, {
+      accesstoken: (needAccessToken && req.method === 'POST') ? user.accessToken : ''
+    })),
     headers: {
-      'Content-Type': 'application/x-www-form-urlencode'
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
   }).then(response => {
     if (response.status === 200) {
