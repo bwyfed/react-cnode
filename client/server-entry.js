@@ -2,6 +2,20 @@
  * Created by BWY on 2018/4/18.
  */
 import React from 'react'
+import { StaticRouter } from 'react-router-dom'
+import { Provider, useStaticRendering } from 'mobx-react'
 import App from './views/App'
 
-export default <App />
+import { createStoreMap } from './store/store'
+// 使用静态渲染。让mobx在服务端渲染的时候不会重复数据变换
+useStaticRendering(true);
+export default (stores, routerContent, url) =>
+  (
+    <Provider {...stores}>
+      <StaticRouter context={routerContent} location={url}>
+        <App />
+      </StaticRouter>
+    </Provider>
+  )
+
+export { createStoreMap }

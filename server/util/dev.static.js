@@ -25,9 +25,9 @@ const Module = module.constructor
 const mfs = new MemoryFs
 const serverCompiler = webpack(serverConfig)
 serverCompiler.outputFileSystem = mfs;	//webpack配置项，fs读取文件使用mfs读取文件
-let serverBundle;
-serverCompiler.watch({},(err,stats)=>{
-	if(err) throw err
+let serverBundle, createStoreMap;
+serverCompiler.watch({}, (err, stats) => {
+  if(err) throw err
 	stats = stats.toJson();
 	stats.errors.forEach(err => console.error(err))
 	stats.warnings.forEach(warn => console.warn(warn))
@@ -39,17 +39,25 @@ serverCompiler.watch({},(err,stats)=>{
 	const bundle = mfs.readFileSync(bundlePath,'utf-8')
 	//将字符串转换为一个模块
 	const m = new Module()	//创建一个新的module
-	m._compile(bundle,'server-entry.js')	//用module解析js的内容，一定要指定module的名字
+	m._compile(bundle, 'server-entry.js')	//用module解析js的内容，一定要指定module的名字
 	serverBundle = m.exports.default;	//通过exports来挂载模块里面的东西
+  createStoreMap = m.exports.createStoreMap
 })
 
 module.exports = function(app) {
 	app.use('/public',proxy({
 		target: 'http://localhost:8888'
 	}))
-	app.get("*",function(req, res){
-		getTemplate().then(template=>{
-			const content = ReactDomServer.renderToString(serverBundle)
+	app.get("*", function (req, res) {
+		getTemplate().then(template => {
+		  const routerContext = {}
+      const app = serverBundle(createStoreMap(), routerContext, req.url)
+			const content = ReactDomServer.renderToString(app)
+      if (routerContext.url) {
+        res.status(302).setHeader('Location', routerContext.url)
+        res.end()
+        return
+      }
 			res.send(template.replace('<!-- app -->',content))
 		})
 	})

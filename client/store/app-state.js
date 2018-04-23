@@ -3,7 +3,7 @@
  */
 import { observable, computed, action } from 'mobx'
 
-class AppState {
+export default class AppState {
   @observable count = 0
   @observable name = 'Jokcy'
   @computed get msg() {
@@ -17,7 +17,7 @@ class AppState {
   }
 }
 
-const appState = new AppState()
+// const appState = new AppState()
 // 测试用代码
 /*
 autorun(() => {
@@ -28,4 +28,4 @@ setInterval(() => {
   appState.add()
 }, 1000)
 */
-export default appState
+// export default appState
