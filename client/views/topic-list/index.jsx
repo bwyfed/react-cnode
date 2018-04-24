@@ -12,6 +12,16 @@ export default class TopicList extends React.Component {
   componentDidMount() {
     // do somethin here
   }
+  // 这个方法定义异步的操作数据。执行完这个方法后，才会继续渲染
+  // 可以在这里进行数据初始化
+  asyncBootstrap() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.props.appState.count = 3
+        resolve(true)
+      })
+    })
+  }
   changeName(event) {
     this.props.appState.changeName(event.target.value)
   }

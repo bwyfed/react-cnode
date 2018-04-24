@@ -10,13 +10,14 @@ import App from './views/App'
 
 import AppState from './store/app-state'
 
+const initialState = window.__INITIAL__STATE__ || {}  // eslint-disable-line
 // ReactDOM.hydrate(<App />, document.getElementById('root'));
 const root = document.getElementById('root');
 const render = (Component) => {
   const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate
   renderMethod(
     <AppContainer>
-      <Provider appState={new AppState()}>
+      <Provider appState={new AppState(initialState.appState)}>
         <BrowserRouter>
           <Component />
         </BrowserRouter>
