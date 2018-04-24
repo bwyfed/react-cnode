@@ -5,7 +5,7 @@
 // import { observable, computed, autorun, action } from 'mobx'
 import { observable, computed, action } from 'mobx'
 
-export class AppState {
+export default class AppState {
   @observable count = 0
   @observable name = 'Jokcy'
   @computed get msg() {
@@ -19,7 +19,7 @@ export class AppState {
   }
 }
 
-const appState = new AppState()
+// const appState = new AppState()
 // 测试代码，观察状态更新
 /*
 // 一旦appState有更新了，就会重新调用autorun
@@ -31,5 +31,5 @@ setInterval(() => {
   appState.add()
 }, 1000)
 */
-export default appState
+// export default appState
 

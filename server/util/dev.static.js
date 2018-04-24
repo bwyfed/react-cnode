@@ -53,11 +53,11 @@ module.exports = function(app) {
 		  const routerContext = {}
       const app = serverBundle(createStoreMap(), routerContext, req.url)
 			const content = ReactDomServer.renderToString(app)
-      if (routerContext.url) {
-        res.status(302).setHeader('Location', routerContext.url)
-        res.end()
-        return
-      }
+      // if (routerContext.url) {
+      //   res.status(302).setHeader('Location', routerContext.url)
+      //   res.end()
+      //   return
+      // }
 			res.send(template.replace('<!-- app -->',content))
 		})
 	})
