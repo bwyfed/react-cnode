@@ -27,5 +27,5 @@ export default class TopicList extends React.Component {
 }
 
 TopicList.propTypes = {
-  appState: PropTypes.instanceOf(AppState).isRequired,
+  appState: PropTypes.instanceOf(AppState),
 }
