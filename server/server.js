@@ -23,7 +23,7 @@ app.use(session({
 }))
 
 app.use(favicon(path.join(__dirname, '../favicon.ico')))
-// 代理API接口
+// 代理API接口，放在服务端渲染代码之前
 app.use('/api/user', require('./util/handle-login'))
 app.use('/api', require('./util/proxy'))
 if (!isDev) {

@@ -12,6 +12,7 @@ router.post('/login', function (req, res, next) {
   })
     .then(response => {
       if (response.status === 200 && response.data.success) {
+        // 在req.session上存放数据user，保存接口返回登录信息
         req.session.user = {
           accessToken: req.body.accessToken,
           loginName: response.data.loginname,
@@ -25,13 +26,13 @@ router.post('/login', function (req, res, next) {
       }
     })
     .catch(err => {
-      if (err.response) {
+      if (err.response) { // 接口有返回，是业务逻辑的错误
         res.json({
           success: false,
           data: err.response.data
         })
       } else {
-        next(err)
+        next(err)   //把错误抛给全局错误处理器来处理
       }
     })
 })
