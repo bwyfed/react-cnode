@@ -29,7 +29,7 @@ router.post('/login', function (req, res, next) {
       if (err.response) { // 接口有返回，是业务逻辑的错误
         res.json({
           success: false,
-          data: err.response.data
+          data: err.response.data  // err.response是个非常大的对象，无法串行化
         })
       } else {
         next(err)   //把错误抛给全局错误处理器来处理

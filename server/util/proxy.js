@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
       msg: 'need login'
     })
   }
-  // 不同的请求方法上，都携带accesstoken
+  // 不同的请求方法GET和POST上，都携带accesstoken。这里设置GET时携带信息
   const query = Object.assign({}, req.query, {
     accesstoken: (needAccessToken && req.method === 'GET') ? user.accessToken : ''
   })
