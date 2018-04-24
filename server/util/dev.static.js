@@ -53,11 +53,13 @@ module.exports = function(app) {
 		  const routerContext = {}
       const app = serverBundle(createStoreMap(), routerContext, req.url)
 			const content = ReactDomServer.renderToString(app)
-      // if (routerContext.url) {
-      //   res.status(302).setHeader('Location', routerContext.url)
-      //   res.end()
-      //   return
-      // }
+      // 在有redirect的情况下，react-router会在context上加上属性url
+      if (routerContext.url) {
+		    // 设置浏览器重定向跳转，结束这次请求，并return
+        res.status(302).setHeader('Location', routerContext.url)
+        res.end()
+        return
+      }
 			res.send(template.replace('<!-- app -->',content))
 		})
 	})
