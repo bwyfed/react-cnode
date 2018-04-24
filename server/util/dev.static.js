@@ -24,7 +24,22 @@ const getTemplate = ()=> {
 	})
 }
 
-const Module = module.constructor
+// const Module = module.constructor
+//  wrap之后的结果是:
+//  `(function(exports, require, module, __filename, __dirname){ ...bundle code})`
+const NativeModule = require('module')
+const vm = require('vm')  // nodejs中的模块
+const getModuleFromString = (bundle, filename) => {
+  const m = { exports: {} }
+  const wrapper = NativeModule.wrap(bundle)
+  const script = new vm.Script(wrapper, {
+    filename: filename,
+    displayErrors: true
+  })
+  const result = script.runInThisContext()
+  result.call(m.exports, m.exports, require, m)
+  return m
+}
 
 const mfs = new MemoryFs
 const serverCompiler = webpack(serverConfig)
@@ -42,9 +57,10 @@ serverCompiler.watch({}, (err, stats) => {
 	)
 	const bundle = mfs.readFileSync(bundlePath,'utf-8')
 	//将字符串转换为一个模块
-	const m = new Module()	//创建一个新的module
-	m._compile(bundle, 'server-entry.js')	//用module解析js的内容，一定要指定module的名字
-	serverBundle = m.exports.default;	//通过exports来挂载模块里面的东西
+	// const m = new Module()	//创建一个新的module
+	// m._compile(bundle, 'server-entry.js')	//用module解析js的内容，一定要指定module的名字
+	const m = getModuleFromString(bundle, 'server-entry.js')
+  serverBundle = m.exports.default  // 通过exports来挂载模块里面的东西
   createStoreMap = m.exports.createStoreMap
 })
 
