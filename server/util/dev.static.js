@@ -10,6 +10,7 @@ const serialize = require('serialize-javascript')
 const ejs = require('ejs')
 const asyncBootstrap = require('react-async-bootstrapper')
 let ReactDomServer = require('react-dom/server')
+const Helmet = require('react-helmet').default
 
 const serverConfig = require('../../build/webpack.config.server')
 
@@ -88,12 +89,18 @@ module.exports = function(app) {
           res.end()
           return
         }
+        // 处理header部分，增加SEO功能
+        const helmet = Helmet.rewind()
         const state = getStoreState(stores)
         const content = ReactDomServer.renderToString(app)
         // res.send(template.replace('<!-- app -->',content))
         const html = ejs.render(template, {
           appString: content,
           initialState: serialize(state),
+          meta: helmet.meta.toString(),
+          title: helmet.title.toString(),
+          style: helmet.style.toString(),
+          link: helmet.link.toString(),
         })
         res.send(html)
       })
