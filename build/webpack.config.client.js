@@ -28,6 +28,7 @@ const config = webpackMerge(baseConfig, {
 	]
 });
 if(isDev) {
+  config.devtool = '#cheap-module-eval-source-map'
 	config.entry = {
 		app: [
 			'react-hot-loader/patch',
@@ -37,7 +38,7 @@ if(isDev) {
 	config.devServer = {
 		host: '0.0.0.0',	//可以使用任何方式访问,127.0.0.1,IP访问,localhost
 		port: '8888',
-		contentBase: path.join(__dirname, '../dist'),
+		// contentBase: path.join(__dirname, '../dist'),
 		hot: true,
 		overlay: {
 			errors: true
