@@ -10,17 +10,33 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import { lightBlue, pink } from 'material-ui/colors'
 import App from './views/App'
 import AppState from './store/app-state'
-
+// 创建一个主题theme
 const theme = createMuiTheme({
   palette: {
-    primary: lightBlue,
-    accent: pink,
+    primary: pink,
+    accent: lightBlue,
     type: 'light',
   },
 })
 
 const initialState = window.__INITIAL__STATE__ || {}  // eslint-disable-line
 // ReactDOM.hydrate(<App />, document.getElementById('root'));
+const createApp = (TheApp) => {
+  class Main extends React.Component {
+    // Remove the server-side injected CSS.
+    componentDidMount() {
+      const jssStyles = document.getElementById('jss-server-side');
+      if (jssStyles && jssStyles.parentNode) {
+        jssStyles.parentNode.removeChild(jssStyles);
+      }
+    }
+
+    render() {
+      return <TheApp />
+    }
+  }
+  return Main
+}
 const root = document.getElementById('root');
 const render = (Component) => {
   const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate
@@ -37,11 +53,11 @@ const render = (Component) => {
     root,
   )
 };
-render(App);
+render(createApp(App));
 if (module.hot) {
   module.hot.accept('./views/App', () => {
 		const NextApp = require('./views/App').default; //eslint-disable-line
     // ReactDOM.hydrate(<NextApp />, document.getElementById('root'));
-    render(NextApp);
+    render(createApp(NextApp));
   })
 }
