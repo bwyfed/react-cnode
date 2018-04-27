@@ -2,6 +2,7 @@
  * Created by BWY on 2018/4/18.
  */
 const path = require('path');
+const webpack = require('webpack')
 const webpackMerge = require('webpack-merge')
 const baseConfig = require('./webpack.base')
 const isDev = process.env.NODE_ENV === 'development'
@@ -16,4 +17,9 @@ module.exports = webpackMerge(baseConfig, {
 		filename: 'server-entry.js',
 		libraryTarget: "commonjs2"
 	},
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.API_BASE': '"http://127.0.0.1:3333"'
+    })
+  ]
 })

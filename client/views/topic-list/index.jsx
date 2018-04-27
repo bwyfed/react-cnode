@@ -4,11 +4,17 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 
 import Tabs, { Tab } from 'material-ui/Tabs'
+import List from 'material-ui/List'
+import { CircularProgress } from 'material-ui/Progress'
 import Button from 'material-ui/Button'
 import { AppState } from '../../store/app-state'
 import Container from '../layout/container'
 import TopicListItem from './list-item'
-@inject('appState') @observer
+// 注入数据
+@inject(stores => ({
+  appState: stores.appState,
+  topicStore: stores.topicStore,
+})) @observer
 
 export default class TopicList extends React.Component {
   constructor() {
@@ -21,6 +27,7 @@ export default class TopicList extends React.Component {
     this.listItemClick = this.listItemClick.bind(this)
   }
   componentDidMount() {
+    this.props.topicStore.fetchTopics()
     // do somethin here
   }
   // 这个方法定义异步的操作数据。执行完这个方法后，才会继续渲染
@@ -49,15 +56,18 @@ export default class TopicList extends React.Component {
 
   render() {
     const { tabIndex } = this.state
+    const { topicStore } = this.props
+    const topicList = topicStore.topics
+    const syncingTopics = topicStore.syncing
     // 测试假数据
-    const topic = {
-      title: 'This is title',
-      username: 'Jokcy',
-      reply_count: 20,
-      visit_count: 30,
-      create_at: 'afdfjdkfdjfjd',
-      tab: 'share',
-    }
+    // const topic = {
+    //   title: 'This is title',
+    //   username: 'Jokcy',
+    //   reply_count: 20,
+    //   visit_count: 30,
+    //   create_at: 'afdfjdkfdjfjd',
+    //   tab: 'share',
+    // }
     return (
       <Container>
         <Helmet>
@@ -72,7 +82,26 @@ export default class TopicList extends React.Component {
           <Tab label="精品" />
           <Tab label="测试" />
         </Tabs>
-        <TopicListItem onClick={this.listItemClick} topic={topic} />
+        <List>
+          {
+            topicList.map(topic => (
+              <TopicListItem
+                key={topic.id}
+                onClick={this.listItemClick}
+                topic={topic}
+              />
+            ))
+          }
+        </List>
+        {
+          syncingTopics ?
+            (
+              <div>
+                <CircularProgress color="accent" size={100} />
+              </div>
+            ) :
+            null
+        }
         <Button variant="raised" color="primary">This is a button</Button>
         <input type="text" onChange={this.changeName} />
         <span>{this.props.appState.msg}</span>
@@ -81,6 +110,7 @@ export default class TopicList extends React.Component {
   }
 }
 
-TopicList.propTypes = {
-  appState: PropTypes.instanceOf(AppState),
+TopicList.wrappedComponent.propTypes = {
+  appState: PropTypes.instanceOf(AppState).isRequired,
+  topicStore: PropTypes.object.isRequired,
 }

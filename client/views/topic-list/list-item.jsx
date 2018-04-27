@@ -4,9 +4,9 @@ import ListItem from 'material-ui/List/ListItem'
 import ListItemAvatar from 'material-ui/List/ListItemAvatar'
 import ListItemText from 'material-ui/List/ListItemText'
 import { withStyles } from 'material-ui/styles'
-// import Avatar from 'material-ui/Avatar'
+import Avatar from 'material-ui/Avatar'
 
-import IconHome from '@material-ui/icons/Home'
+// import IconHome from '@material-ui/icons/Home'
 // 引入自定义的样式文件
 import { topicPrimaryStyle, topicSecondaryStyle } from './styles'
 // 组件中使用样式，要传入classes
@@ -18,15 +18,15 @@ const Primary = ({ classes, topic }) => (
 )
 
 const Secondary = ({ classes, topic }) => (
-  <div className={classes.root}>
-    <span className={classes.userName}>{topic.username}</span>
+  <span className={classes.root}>
+    <span className={classes.userName}>{topic.author.loginname}</span>
     <span className={classes.count}>
       <span className={classes.accentColor}>{topic.reply_count}</span>
       <span>/</span>
       <span>{topic.visit_count}</span>
     </span>
     <span>创建时间：{topic.create_at}</span>
-  </div>
+  </span>
 )
 
 Primary.propTypes = {
@@ -45,8 +45,8 @@ const StyleSecondary = withStyles(topicSecondaryStyle)(Secondary)
 const TopicListItem = ({ onClick, topic }) => (
   <ListItem button onClick={onClick}>
     <ListItemAvatar>
-      {/* <Avatar src={topic.image} /> */}
-      <IconHome />
+      <Avatar src={topic.author.avatar_url} />
+      {/* <IconHome /> */}
     </ListItemAvatar>
     <ListItemText
       primary={<StyledPrimary topic={topic} />}
