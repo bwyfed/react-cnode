@@ -2,6 +2,7 @@ import React from 'react'
 import { observer, inject } from 'mobx-react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
+import queryString from 'query-string'
 
 import Tabs, { Tab } from 'material-ui/Tabs'
 import List from 'material-ui/List'
@@ -10,6 +11,7 @@ import Button from 'material-ui/Button'
 import { AppState } from '../../store/app-state'
 import Container from '../layout/container'
 import TopicListItem from './list-item'
+import { tabs } from '../../util/variable-define'
 // 注入数据
 @inject(stores => ({
   appState: stores.appState,
@@ -17,18 +19,28 @@ import TopicListItem from './list-item'
 })) @observer
 
 export default class TopicList extends React.Component {
+  // 获取路由对象
+  static contextType = {
+    router: PropTypes.object,
+  }
   constructor() {
     super()
     this.state = {
-      tabIndex: 0,
+      // tabIndex: 0,
     }
     this.changeName = this.changeName.bind(this) // 测试用代码
     this.changeTab = this.changeTab.bind(this)
     this.listItemClick = this.listItemClick.bind(this)
   }
   componentDidMount() {
-    this.props.topicStore.fetchTopics()
+    const tab = this.getTab()
+    this.props.topicStore.fetchTopics(tab)
     // do somethin here
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.search !== this.props.location.search) {
+      this.props.topicStore.fetchTopics(this.getTab(nextProps.location.search))
+    }
   }
   // 这个方法定义异步的操作数据。执行完这个方法后，才会继续渲染
   // 可以在这里进行数据初始化
@@ -43,10 +55,19 @@ export default class TopicList extends React.Component {
   changeName(event) {
     this.props.appState.changeName(event.target.value)
   }
-  changeTab(e, index) {
-    this.setState({
-      tabIndex: index,
+  changeTab(e, value) {
+    // this.setState({
+    //   tabIndex: index,
+    // })
+    // 传入的value值
+    this.context.router.history.push({
+      pathname: '/index',
+      search: `?tab=${value}`,
     })
+  }
+  getTab(search = this.props.location.search) {
+    const query = queryString.parse(search)
+    return query.tab || 'all'
   }
   /* eslint-disable */
   listItemClick() {
@@ -55,10 +76,11 @@ export default class TopicList extends React.Component {
   /* eslint-enable */
 
   render() {
-    const { tabIndex } = this.state
+    // const { tabIndex } = this.state
     const { topicStore } = this.props
     const topicList = topicStore.topics
     const syncingTopics = topicStore.syncing
+    const tab = this.getTab()
     // 测试假数据
     // const topic = {
     //   title: 'This is title',
@@ -74,13 +96,12 @@ export default class TopicList extends React.Component {
           <title>This is topic list</title>
           <meta name="description" content="This is description" />
         </Helmet>
-        <Tabs value={tabIndex} onChange={this.changeTab}>
-          <Tab label="全部" />
-          <Tab label="分享" />
-          <Tab label="工作" />
-          <Tab label="问答" />
-          <Tab label="精品" />
-          <Tab label="测试" />
+        <Tabs value={tab} onChange={this.changeTab}>
+          {
+            Object.keys(tabs).map(t => (
+              <Tab key={t} label={tabs[t]} value={t} />
+            ))
+          }
         </Tabs>
         <List>
           {
@@ -96,8 +117,14 @@ export default class TopicList extends React.Component {
         {
           syncingTopics ?
             (
-              <div>
-                <CircularProgress color="accent" size={100} />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  padding: '40px 0',
+                }}
+              >
+                <CircularProgress color="primary" size={100} />
               </div>
             ) :
             null
@@ -113,4 +140,8 @@ export default class TopicList extends React.Component {
 TopicList.wrappedComponent.propTypes = {
   appState: PropTypes.instanceOf(AppState).isRequired,
   topicStore: PropTypes.object.isRequired,
+}
+
+TopicList.propTypes = {
+  location: PropTypes.object.isRequired,
 }

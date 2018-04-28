@@ -1,21 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import ListItem from 'material-ui/List/ListItem'
 import ListItemAvatar from 'material-ui/List/ListItemAvatar'
 import ListItemText from 'material-ui/List/ListItemText'
 import { withStyles } from 'material-ui/styles'
 import Avatar from 'material-ui/Avatar'
 
+import { tabs } from '../../util/variable-define'
+
 // import IconHome from '@material-ui/icons/Home'
 // 引入自定义的样式文件
 import { topicPrimaryStyle, topicSecondaryStyle } from './styles'
 // 组件中使用样式，要传入classes
-const Primary = ({ classes, topic }) => (
-  <div className={classes.root}>
-    <span className={classes.tab}>{topic.tab}</span>
-    <span className={classes.title}>{topic.title}</span>
-  </div>
-)
+const Primary = ({ classes, topic }) => {
+  const classNames = cx({
+    [classes.tab]: true,
+    [classes.top]: topic.top,
+  })
+  return (
+    <div className={classes.root}>
+      <span className={classNames}>{topic.top ? '置顶' : tabs[topic.tab]}</span>
+      <span className={classes.title}>{topic.title}</span>
+    </div>
+  )
+}
 
 const Secondary = ({ classes, topic }) => (
   <span className={classes.root}>

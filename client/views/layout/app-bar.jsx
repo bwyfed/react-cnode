@@ -48,7 +48,7 @@ class MainAppBar extends React.Component {
             <Typography type="title" color="inherit" className={classes.flex}>
               JNode
             </Typography>
-            <Button variant="raised" color="accent" onClick={this.createButtonClick}>
+            <Button variant="raised" color="default" onClick={this.createButtonClick}>
               新建话题
             </Button>
             <Button color="inherit" onClick={this.loginButtonClick}>
