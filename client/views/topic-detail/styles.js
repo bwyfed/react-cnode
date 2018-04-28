@@ -1,44 +1,92 @@
-export const topicPrimaryStyle = theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
+export const topicDetailStyle = theme => ({
+  header: {
+    padding: 20,
+    borderBottom: '1px solid #dfdfdf',
+    '& h3': {
+      margin: 0,
+    },
   },
-  title: {
-    color: '#555',
+  body: {
+    padding: 20,
+    '& img': {
+      maxWidth: '100%',
+    },
+    '& ul, & ol': {
+      paddingLeft: 30,
+      '& li': {
+        marginBottom: 7,
+      },
+    },
   },
-  tab: {
+  replyHeader: {
+    padding: '10px 20px',
     backgroundColor: theme.palette.primary[500],
-    textAlign: 'center',
-    display: 'inline-block',
-    padding: '0 6px',
     color: '#fff',
-    borderRadius: 3,
-    marginRight: 10,
-    fontSize: '12px',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
-  top: {
-    backgroundColor: theme.palette.primary[500],
+  replyBody: {
+    padding: 20,
+  },
+  replies: {
+    margin: '0 24px',
+    marginBottom: 24,
+  },
+  notLoginButton: {
+    textAlign: 'center',
+    padding: '20px 0',
+  },
+  '@media screen and (max-width: 480px)': {
+    replies: {
+      margin: '0 10px',
+      marginBottom: 24,
+    },
+  },
+  replyEditor: {
+    position: 'relative',
+    padding: 24,
+    borderBottom: '1px solid #dfdfdf',
+    '& .CodeMirror': {
+      height: 150,
+      minHeight: 'auto',
+      '& .CodeMirror-scroll': {
+        minHeight: 'auto',
+      },
+    },
+  },
+  replyButton: {
+    position: 'absolute',
+    right: 40,
+    bottom: 65,
+    zIndex: 101,
+    opacity: 0.1,
+    transition: 'opacity .3s',
+    '&:hover': {
+      opacity: 1,
+    },
+  },
+  loadingContainer: {
+    padding: 40,
+    display: 'flex',
+    justifyContent: 'space-around',
   },
 })
 
-export const topicSecondaryStyle = theme => ({
+export const replyStyle = {
   root: {
     display: 'flex',
-    alignItems: 'center',
-    paddingTop: 3,
+    alignItems: 'flex-start',
+    padding: 20,
+    paddingBottom: 0,
+    borderBottom: '1px solid #dfdfdf',
   },
-  count: {
-    textAlign: 'center',
+  left: {
     marginRight: 20,
   },
-  userName: {
-    marginRight: 20,
-    color: '#9e9e9e',
+  right: {
+    '& img': {
+      maxWidth: '100%',
+      display: 'block',
+    },
   },
-  accentColor: {
-    color: theme.palette.accent[300],
-  },
-})
-
-
-export default topicPrimaryStyle
+}

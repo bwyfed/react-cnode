@@ -11,9 +11,7 @@
     "dev:server": "nodemon server/server.js",
     "clear": "rimraf dist",
     "build": "npm run clear && npm run build:client && npm run build:server",
-    "start": "cross-env NODE_ENV=production node server/server.js",
-    "lint": "eslint --ext .js --ext .jsx client/",
-    "precommit": "npm run lint"
+    "start": "cross-env NODE_ENV=production node server/server.js"
   },
   "author": "Bianwangyang",
   "license": "ISC",
@@ -28,6 +26,7 @@
     "express-session": "^1.15.6",
     "jss": "^9.8.1",
     "jss-preset-default": "^4.3.0",
+    "marked": "^0.3.19",
     "material-ui": "^1.0.0-beta.43",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",
