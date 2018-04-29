@@ -4,7 +4,7 @@ import marked from 'marked'
 import Helmet from 'react-helmet'
 import {
   inject,
-  observer,
+  // observer,
 } from 'mobx-react'
 
 import { withStyles } from 'material-ui/styles'

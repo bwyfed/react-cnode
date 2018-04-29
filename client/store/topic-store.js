@@ -27,9 +27,14 @@ class TopicStore {
   }
 
   @computed get detailMap() {
-    return this.details.reduce((result, detail) => {
+    return this.details.reduce(() => {
+      /*
       result[detail.id] = detail
       return detail
+      */
+      // 这一块如何写？
+      const a = 1; const b = 2;
+      return { a, b }
     }, {})
   }
 
@@ -39,7 +44,7 @@ class TopicStore {
       this.topics = []
       get('/topics', {
         mdrender: false,
-        tabs,
+        // tabs,
       }).then((resp) => {
         if (resp.success) {
           resp.data.forEach((topic) => {
