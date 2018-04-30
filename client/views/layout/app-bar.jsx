@@ -24,6 +24,7 @@ const styles = {
 
 @inject(stores => ({
   appState: stores.appState,
+  user: stores.appState.user,
 })) @observer
 class MainAppBar extends React.Component {
   static contextTypes = {
@@ -54,9 +55,7 @@ class MainAppBar extends React.Component {
   }
   render() {
     const { classes } = this.props
-    const {
-      user,
-    } = this.props.appState
+    const { user } = this.props
     return (
       <div className={classes.root}>
         <AppBar position="fixed">
@@ -70,7 +69,7 @@ class MainAppBar extends React.Component {
             <Button variant="raised" color="default" onClick={this.createButtonClick}>
               新建话题
             </Button>
-            <Button color="inherit" onClick={this.loginButtonClick}>
+            <Button color="default" onClick={this.loginButtonClick}>
               {
                 user.isLogin ? user.info.loginname : '登录'
               }
@@ -84,6 +83,7 @@ class MainAppBar extends React.Component {
 
 MainAppBar.wrappedComponent.propTypes = {
   appState: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 MainAppBar.propTypes = {
