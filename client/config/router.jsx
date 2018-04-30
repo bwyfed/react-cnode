@@ -7,8 +7,8 @@ import UserLogin from '../views/user/login'
 import TestApi from '../views/test/api-test'
 
 export default () => [
-  <Route path="/" render={() => <Redirect to="/list" />} exact key="first" />,
-  <Route path="/list" component={TopicList} key="list" />,
+  <Route path="/" exact render={() => <Redirect to="/index" />} key="first" />,
+  <Route path="/index" component={TopicList} key="index" />,
   <Route path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route path="/user/login" exact component={UserLogin} key="user-login" />,
   <Route path="/user/info" exact component={UserInfo} key="user-info" />,

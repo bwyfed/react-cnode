@@ -63,7 +63,7 @@ export default class TopicList extends React.Component {
     // })
     // 传入的value值。点击某个tab后，做路由跳转
     this.context.router.history.push({
-      // pathname: '/index',  // 视频中是/index路由，但是现在还不支持/index。当前值切换query
+      pathname: '/index', // 视频中是/index路由，但是现在还不支持/index。当前值切换query。问题已解决，重新定义路由
       search: `?tab=${value}`,
     })
   }
