@@ -12,11 +12,13 @@ import { AppState } from '../../store/app-state'
 import Container from '../layout/container'
 import TopicListItem from './list-item'
 import { tabs } from '../../util/variable-define'
-// 注入数据
-@inject(stores => ({
-  appState: stores.appState,
-  topicStore: stores.topicStore,
-})) @observer
+// 注入数据 stores是个对象，包含了在<Provider>组件上定义的任何属性名（appState和topicStore）
+@inject(stores => (
+  {
+    appState: stores.appState,
+    topicStore: stores.topicStore,
+  }
+)) @observer
 
 export default class TopicList extends React.Component {
   // 获取路由对象
@@ -77,7 +79,7 @@ export default class TopicList extends React.Component {
 
   render() {
     // const { tabIndex } = this.state
-    const { topicStore } = this.props
+    const { topicStore } = this.props // 注入后可以获取注入的数据
     const topicList = topicStore.topics
     const syncingTopics = topicStore.syncing
     const tab = this.getTab()
@@ -136,7 +138,7 @@ export default class TopicList extends React.Component {
     )
   }
 }
-
+// 使用wrappedComponent来验证注入的对象
 TopicList.wrappedComponent.propTypes = {
   appState: PropTypes.instanceOf(AppState).isRequired,
   topicStore: PropTypes.object.isRequired,

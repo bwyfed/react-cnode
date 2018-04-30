@@ -7,15 +7,15 @@ import {
 } from 'mobx'
 import { topicSchema, replySchema } from '../util/variable-define'
 import { get, post } from '../util/http'
-
+// 默认的值是topicSchema，传入的值是topic，返回一个所有字段都有定义的topic对象
 const createTopic = topic => Object.assign({}, topicSchema, topic)
 
 const createReply = reply => Object.assign({}, replySchema, reply)
-
+// 每个话题都放在这个类中。这样便于扩展
 class Topic {
-  constructor(data, isDetail) {
-    extendObservable(this, data)
-    this.isDetail = isDetail
+  constructor(data) {
+    extendObservable(this, data) // 是data的所有属性为reactive
+    // this.isDetail = isDetail
   }
   @observable syncing = false
   @observable createdReplies = []
@@ -40,7 +40,7 @@ class Topic {
     })
   }
 }
-
+// TopicStore类是和话题相关的数据
 class TopicStore {
   @observable topics
   @observable details
@@ -51,7 +51,7 @@ class TopicStore {
     this.topics = topics.map(topic => new Topic(createTopic(topic)))
     this.details = details.map(topic => new Topic(createTopic(topic)))
   }
-
+  // 往topics里面加入新获取的topic
   addTopic(topic) {
     this.topics.push(new Topic(createTopic(topic)))
   }
@@ -67,13 +67,13 @@ class TopicStore {
       return { a, b }
     }, {})
   }
-
+  // 获取topics的方法
   @action fetchTopics() {
     return new Promise((resolve, reject) => {
       this.syncing = true
-      this.topics = []
+      this.topics = [] // 每次获取topic之前，清空topics，防止在服务端渲染重新执行生命周期函数时，出现大量相同的topic
       get('/topics', {
-        mdrender: false,
+        mdrender: false, // 告诉Cnode API是否要把markdown字符串渲染成html字符串。这里仍使用markdown
         // tabs,
       }).then((resp) => {
         if (resp.success) {
