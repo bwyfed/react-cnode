@@ -68,13 +68,13 @@ class TopicStore {
     }, {})
   }
   // 获取topics的方法
-  @action fetchTopics() {
+  @action fetchTopics(tab) {
     return new Promise((resolve, reject) => {
       this.syncing = true
       this.topics = [] // 每次获取topic之前，清空topics，防止在服务端渲染重新执行生命周期函数时，出现大量相同的topic
       get('/topics', {
         mdrender: false, // 告诉Cnode API是否要把markdown字符串渲染成html字符串。这里仍使用markdown
-        // tabs,
+        tab, // 这里之前写错为tabs，传入tab表示获取哪个标签的数据
       }).then((resp) => {
         if (resp.success) {
           resp.data.forEach((topic) => {

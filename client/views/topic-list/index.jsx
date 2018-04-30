@@ -8,7 +8,7 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import List from 'material-ui/List'
 import { CircularProgress } from 'material-ui/Progress'
 import Button from 'material-ui/Button'
-import { AppState } from '../../store/app-state'
+import AppState from '../../store/app-state'
 import Container from '../layout/container'
 import TopicListItem from './list-item'
 import { tabs } from '../../util/variable-define'
@@ -21,7 +21,7 @@ import { tabs } from '../../util/variable-define'
 )) @observer
 
 export default class TopicList extends React.Component {
-  // 获取路由对象
+  // 获取路由对象。router是在使用react-router时会加到react context里面，在最顶层加上去后，所有组件都可以使用
   static contextTypes = {
     router: PropTypes.object,
   }
@@ -61,9 +61,9 @@ export default class TopicList extends React.Component {
     // this.setState({
     //   tabIndex: index,
     // })
-    // 传入的value值
+    // 传入的value值。点击某个tab后，做路由跳转
     this.context.router.history.push({
-      pathname: '/index',
+      // pathname: '/index',  // 视频中是/index路由，但是现在还不支持/index。当前值切换query
       search: `?tab=${value}`,
     })
   }
@@ -143,7 +143,7 @@ TopicList.wrappedComponent.propTypes = {
   appState: PropTypes.instanceOf(AppState).isRequired,
   topicStore: PropTypes.object.isRequired,
 }
-
+// 注入路由的location对象。在渲染时已经传进来了，可以直接使用
 TopicList.propTypes = {
   location: PropTypes.object.isRequired,
 }
