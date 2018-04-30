@@ -20,7 +20,7 @@ import { tabs } from '../../util/variable-define'
 
 export default class TopicList extends React.Component {
   // 获取路由对象
-  static contextType = {
+  static contextTypes = {
     router: PropTypes.object,
   }
   constructor() {

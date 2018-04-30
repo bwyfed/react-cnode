@@ -27,4 +27,19 @@ export const topicSchema = {
   replies: [],
 }
 
-export default topicSchema
+export const replySchema = {
+  id: '',
+  author: {
+    loginname: '',
+    avatar_url: '',
+  },
+  content: '',
+  ups: [],
+  create_at: '',
+  reply_id: null,
+  is_uped: false,
+}
+
+export default {
+  tabs,
+}
