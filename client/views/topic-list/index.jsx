@@ -71,11 +71,11 @@ export default class TopicList extends React.Component {
     const query = queryString.parse(search)
     return query.tab || 'all'
   }
-  /* eslint-disable */
+
   listItemClick(topic) {
     this.context.router.history.push(`/detail/${topic.id}`)
   }
-  /* eslint-enable */
+
 
   render() {
     // const { tabIndex } = this.state

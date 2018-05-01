@@ -43,7 +43,7 @@ class Topic {
 // TopicStore类是和话题相关的数据
 class TopicStore {
   @observable topics
-  @observable details
+  @observable details // 数组，有详情的话题列表
   @observable syncing
 
   constructor({ syncing = false, topics = [], details = [] } = {}) {
@@ -55,16 +55,11 @@ class TopicStore {
   addTopic(topic) {
     this.topics.push(new Topic(createTopic(topic)))
   }
-
+  // 根据id获取有详情的话题对象
   @computed get detailMap() {
-    return this.details.reduce(() => {
-      /*
+    return this.details.reduce((result, detail) => {
       result[detail.id] = detail
-      return detail
-      */
-      // 这一块如何写？
-      const a = 1; const b = 2;
-      return { a, b }
+      return result
     }, {})
   }
   // 获取topics的方法
@@ -94,7 +89,7 @@ class TopicStore {
 
   @action getTopicDetail(id) {
     return new Promise((resolve, reject) => {
-      if (this.detailMap[id]) {
+      if (this.detailMap[id]) { // 已经获取了详情数据，不需要重新获取
         resolve(this.detailMap[id])
       } else {
         get(`/topic/${id}`, {
@@ -107,7 +102,7 @@ class TopicStore {
           } else {
             reject()
           }
-        })
+        }).catch(reject)
       }
     })
   }
