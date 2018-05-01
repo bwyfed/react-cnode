@@ -25,23 +25,19 @@ class User extends React.Component {
 
   render() {
     const { classes } = this.props
-    const {
-      // isLogin,  // 为什么视频4-9节中是不报错的?
-      info,
-    } = this.props.user
-    // const user = this.props.user.info
+    const user = this.props.user.info
     return (
       <Container>
         <div className={classes.avatar}>
           <div className={classes.bg} />
           {
-            info.avatar_url ?
-              <Avatar className={classes.avatarImg} src={info.avatar_url} /> :
+            user.avatar_url ?
+              <Avatar className={classes.avatarImg} src={user.avatar_url} /> :
               <Avatar className={classes.avatarImg}>
                 <UserIcon />
               </Avatar>
           }
-          <span className={classes.userName}>{info.loginname || '未登录'}</span>
+          <span className={classes.userName}>{user.loginname || '未登录'}</span>
         </div>
         {this.props.children}
       </Container>

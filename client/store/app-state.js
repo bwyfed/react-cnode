@@ -10,7 +10,7 @@ export default class AppState {
   @observable user = {
     isLogin: false, // 用户是否登录，默认未登录
     info: {}, // 服务端返回的用户"个人信息"，登录成功后会设置给它
-    detail: { // 用户详情
+    detail: { // 用户详情信息，包含最近发布的帖子和最近回复
       recentTopics: [],
       recentReplies: [],
       syncing: false,

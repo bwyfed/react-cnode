@@ -50,16 +50,16 @@ class UserInfo extends React.Component {
       this.props.appState.getUserCollection()
     }
   }
-
+  // 点击某个话题，进入话题详情页
   goToTopic(id) {
     this.context.router.history.push(`/detail/${id}`)
   }
 
   render() {
     const { classes } = this.props
-    const topics = this.props.user.detail.recentTopics
-    const replies = this.props.user.detail.recentReplies
-    const collections = this.props.user.collections.list
+    const topics = this.props.user.detail.recentTopics // 最近发布的话题
+    const replies = this.props.user.detail.recentReplies // 新的回复
+    const collections = this.props.user.collections.list // 收藏的话题
     return (
       <UserWrapper>
         <div className={classes.root}>
@@ -139,7 +139,7 @@ class UserInfo extends React.Component {
 
 UserInfo.wrappedComponent.propTypes = {
   user: PropTypes.object.isRequired,
-  appState: PropTypes.object.isRequired, // 忘记对appState做验证，则会类型方面的错误
+  appState: PropTypes.object.isRequired, // 忘记对appState做验证，则会报类型方面的错误
 }
 
 UserInfo.propTypes = {
