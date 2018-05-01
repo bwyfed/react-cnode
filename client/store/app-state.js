@@ -8,8 +8,8 @@ import { post, get } from '../util/http'
 
 export default class AppState {
   @observable user = {
-    isLogin: false,
-    info: {}, // 服务端返回的用户个人信息
+    isLogin: false, // 用户是否登录，默认未登录
+    info: {}, // 服务端返回的用户"个人信息"，登录成功后会设置给它
     detail: { // 用户详情
       recentTopics: [],
       recentReplies: [],
@@ -20,15 +20,15 @@ export default class AppState {
       list: [],
     },
   }
-
+  // 执行登录操作，接收accessToken
   @action login(accessToken) {
     return new Promise((resolve, reject) => {
       post('/user/login', {}, {
         accessToken,
       }).then((resp) => {
         if (resp.success) {
-          this.user.isLogin = true
           this.user.info = resp.data
+          this.user.isLogin = true
           resolve()
         } else {
           reject(resp)

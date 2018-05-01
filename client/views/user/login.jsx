@@ -12,10 +12,12 @@ import { withStyles } from 'material-ui/styles'
 import UserWrapper from './user'
 import loginStyles from './styles/login-style'
 
-@inject(stores => ({
-  appState: stores.appState,
-  user: stores.appState.user,
-})) @observer
+@inject(stores => (
+  {
+    appState: stores.appState,
+    user: stores.appState.user,
+  }
+)) @observer
 class UserLogin extends React.Component {
   static contextTypes = {
     router: PropTypes.object,

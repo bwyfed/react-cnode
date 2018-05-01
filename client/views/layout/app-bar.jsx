@@ -24,7 +24,7 @@ const styles = {
 
 @inject(stores => ({
   appState: stores.appState,
-  user: stores.appState.user,
+  // user: stores.appState.user,
 })) @observer
 class MainAppBar extends React.Component {
   static contextTypes = {
@@ -55,7 +55,7 @@ class MainAppBar extends React.Component {
   }
   render() {
     const { classes } = this.props
-    const { user } = this.props
+    const { user } = this.props.appState
     return (
       <div className={classes.root}>
         <AppBar position="fixed">
@@ -83,7 +83,7 @@ class MainAppBar extends React.Component {
 
 MainAppBar.wrappedComponent.propTypes = {
   appState: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  // user: PropTypes.object.isRequired,
 }
 
 MainAppBar.propTypes = {
