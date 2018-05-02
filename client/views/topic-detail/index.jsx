@@ -10,11 +10,11 @@ import {
 import { withStyles } from 'material-ui/styles'
 import Paper from 'material-ui/Paper'
 import { CircularProgress } from 'material-ui/Progress'
-// import Button from 'material-ui/Button'
+import Button from 'material-ui/Button'
 
-// import IconReply from '@material-ui/icons/Reply'
+import IconReply from '@material-ui/icons/Reply'
 
-// import SimpleMDE from 'react-simplemde-editor'
+import SimpleMDE from 'react-simplemde-editor'
 
 import Container from '../layout/container'
 
@@ -54,7 +54,7 @@ class TopicDetail extends React.Component {
   goToLogin() {
     this.context.router.history.push('/user/login')
   }
-
+  // 把newReply里面的内容发送到服务端进行保存，然后再拿回来，新创建一个reply
   doReply() {
     const id = this.getTopicId()
     const topic = this.props.topicStore.detailMap[id]
@@ -77,7 +77,7 @@ class TopicDetail extends React.Component {
   render() {
     const {
       classes,
-      // user,
+      user,
     } = this.props
     const id = this.getTopicId()
     const topic = this.props.topicStore.detailMap[id] // 通过id获取详情对象
@@ -105,11 +105,69 @@ class TopicDetail extends React.Component {
           </section>
         </Container>
 
+        {
+          topic.createdReplies && topic.createdReplies.length > 0 ?
+            (
+              <Paper elevation={4} className={classes.replies}>
+                <header className={classes.replyHeader}>
+                  <span>我的最新回复</span>
+                  <span>{`${topic.createdReplies.length}条`}</span>
+                </header>
+                {
+                  topic.createdReplies.map(reply => (
+                    <Reply
+                      key={reply.id}
+                      reply={Object.assign({}, reply, {
+                        author: {
+                          avatar_url: user.info.avatar_url,
+                          loginname: user.info.loginname,
+                        },
+                      })}
+                    />
+                  ))
+                }
+              </Paper>
+            ) :
+            null
+        }
+
         <Paper elevation={4} className={classes.replies}>
           <header className={classes.replyHeader}>
             <span>{`${topic.reply_count} 回复`}</span>
             <span>{`最新回复 ${topic.last_reply_at}`}</span>
           </header>
+          {
+            user.isLogin ?
+              <section className={classes.replyEditor}>
+                <SimpleMDE
+                  onChange={this.handleNewReplyChange}
+                  value={this.state.newReply}
+                  options={{
+                    toolbar: false,
+                    autoFocus: false,
+                    spellChecker: false,
+                    placeholder: '添加您的精彩回复',
+                  }}
+                />
+                <Button
+                  variant="fab"
+                  color="primary"
+                  onClick={this.doReply}
+                  className={classes.replyButton}
+                >
+                  <IconReply />
+                </Button>
+              </section> :
+              null
+          }
+          {
+            !user.isLogin &&
+            <section className={classes.notLoginButton}>
+              <Button variant="raised" color="primary" onClick={this.goToLogin}>
+                登录并进行回复
+              </Button>
+            </section>
+          }
           <section>
             {
               topic.replies.map(reply => <Reply reply={reply} key={reply.id} />)
@@ -123,7 +181,7 @@ class TopicDetail extends React.Component {
 
 TopicDetail.wrappedComponent.propTypes = {
   topicStore: PropTypes.object.isRequired,
-  // user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 TopicDetail.propTypes = {

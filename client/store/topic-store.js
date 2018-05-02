@@ -18,7 +18,7 @@ class Topic {
     // this.isDetail = isDetail
   }
   @observable syncing = false
-  @observable createdReplies = []
+  @observable createdReplies = [] // 每个话题都新建一个空数组，表示所有回复
   @action doReply(content) {
     return new Promise((resolve, reject) => {
       post(`/topic/${this.id}/replies`, {
