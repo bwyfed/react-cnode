@@ -45,6 +45,7 @@ class TopicStore {
   @observable topics
   @observable details // 数组，有详情的话题列表
   @observable syncing
+  @observable createdTopics = []
 
   constructor({ syncing = false, topics = [], details = [] } = {}) {
     this.syncing = syncing
@@ -104,6 +105,31 @@ class TopicStore {
           }
         }).catch(reject)
       }
+    })
+  }
+
+  // 创建话题
+  @action createTopic(title, tab, content) {
+    return new Promise((resolve, reject) => {
+      post('/topics', {
+        needAccessToken: true,
+      }, {
+        title, tab, content,
+      }).then((resp) => {
+        if (resp.success) {
+          const topic = {
+            title,
+            tab,
+            content,
+            id: resp.topic_id,
+            create_at: Date.now(),
+          }
+          this.createdTopics.push(new Topic(createTopic(topic)))
+          resolve()
+        } else {
+          reject()
+        }
+      }).catch(reject)
     })
   }
 }

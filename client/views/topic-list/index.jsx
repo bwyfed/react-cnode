@@ -81,8 +81,14 @@ export default class TopicList extends React.Component {
     // const { tabIndex } = this.state
     const { topicStore } = this.props // 注入后可以获取注入的数据
     const topicList = topicStore.topics
+    const {
+      createdTopics,
+    } = topicStore
     const syncingTopics = topicStore.syncing
     const tab = this.getTab()
+    const {
+      user,
+    } = this.props.appState
     // 测试假数据
     // const topic = {
     //   title: 'This is title',
@@ -105,6 +111,22 @@ export default class TopicList extends React.Component {
             ))
           }
         </Tabs>
+        <List style={{ backgroundColor: '#dfdfdf' }}>
+          {
+            createdTopics.map((topic) => {
+              topic = Object.assign({}, topic, {
+                author: user.info,
+              })
+              return (
+                <TopicListItem
+                  key={topic.id}
+                  onClick={() => this.listItemClick(topic)}
+                  topic={topic}
+                />
+              )
+            })
+          }
+        </List>
         <List>
           {
             topicList.map(topic => (

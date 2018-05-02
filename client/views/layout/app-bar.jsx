@@ -41,11 +41,11 @@ class MainAppBar extends React.Component {
   onHomeIconClick() {
     this.context.router.history.push('/index?tab=all')
   }
-  /* eslint-disable */
-  createButtonClick() {
 
+  createButtonClick() {
+    this.context.router.history.push('/topic/create')
   }
-  /* eslint-enable */
+
   loginButtonClick() {
     if (this.props.appState.user.isLogin) {
       this.context.router.history.push('/user/info')
