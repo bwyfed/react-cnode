@@ -47,12 +47,18 @@ export default class TopicList extends React.Component {
   // 这个方法定义异步的操作数据。执行完这个方法后，才会继续渲染
   // 可以在这里进行数据初始化
   asyncBootstrap() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        this.props.appState.count = 3
-        resolve(true)
-      })
-    })
+    // 服务端获取数据
+    const query = queryString.parse(this.props.location.search)
+    const { tab } = query
+    return this.props.topicStore.fetchTopics(tab || 'all')
+      .then(() => true)
+      .catch(() => false)
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     this.props.appState.count = 3
+    //     resolve(true)
+    //   })
+    // })
   }
   changeName(event) {
     this.props.appState.changeName(event.target.value)

@@ -1,6 +1,6 @@
 import {
   observable,
-  // toJS,
+  toJS,
   computed,
   action,
   extendObservable,
@@ -46,11 +46,18 @@ class TopicStore {
   @observable details // 数组，有详情的话题列表
   @observable syncing
   @observable createdTopics = []
+  @observable tab
 
-  constructor({ syncing = false, topics = [], details = [] } = {}) {
+  constructor({
+    syncing = false,
+    topics = [],
+    tab = null,
+    details = [],
+  } = {}) {
     this.syncing = syncing
     this.topics = topics.map(topic => new Topic(createTopic(topic)))
     this.details = details.map(topic => new Topic(createTopic(topic)))
+    this.tab = tab
   }
   // 往topics里面加入新获取的topic
   addTopic(topic) {
@@ -66,25 +73,32 @@ class TopicStore {
   // 获取topics的方法
   @action fetchTopics(tab) {
     return new Promise((resolve, reject) => {
-      this.syncing = true
-      this.topics = [] // 每次获取topic之前，清空topics，防止在服务端渲染重新执行生命周期函数时，出现大量相同的topic
-      get('/topics', {
-        mdrender: false, // 告诉Cnode API是否要把markdown字符串渲染成html字符串。这里仍使用markdown
-        tab, // 这里之前写错为tabs，传入tab表示获取哪个标签的数据
-      }).then((resp) => {
-        if (resp.success) {
-          this.topics = resp.data.map(topic => (
-            new Topic(createTopic(topic))
-          ))
-          resolve()
-        } else {
-          reject()
-        }
-        this.syncing = false
-      }).catch((err) => {
-        reject(err)
-        this.syncing = false
-      })
+      if (tab === this.tab && this.topics.length > 0) {
+        // 如果传入的tab和当前的tab相等，说明服务端已获取到数据。
+        // 加强判断，如果此时的topics数组存在数据，也说明服务端已获取到数据
+        resolve()
+      } else {
+        this.tab = tab
+        this.syncing = true
+        this.topics = [] // 每次获取topic之前，清空topics，防止在服务端渲染重新执行生命周期函数时，出现大量相同的topic
+        get('/topics', {
+          mdrender: false, // 告诉Cnode API是否要把markdown字符串渲染成html字符串。这里仍使用markdown
+          tab, // 这里之前写错为tabs，传入tab表示获取哪个标签的数据
+        }).then((resp) => {
+          if (resp.success) {
+            this.topics = resp.data.map(topic => (
+              new Topic(createTopic(topic))
+            ))
+            resolve()
+          } else {
+            reject()
+          }
+          this.syncing = false
+        }).catch((err) => {
+          reject(err)
+          this.syncing = false
+        })
+      }
     })
   }
 
@@ -131,6 +145,15 @@ class TopicStore {
         }
       }).catch(reject)
     })
+  }
+  // 给服务端渲染使用。把observable的数据转化为正常的JS对象
+  toJson() {
+    return {
+      topics: toJS(this.topics),
+      syncing: this.syncing,
+      details: toJS(this.details),
+      tab: this.tab,
+    }
   }
 }
 

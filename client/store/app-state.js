@@ -3,7 +3,7 @@
  * 跟业务逻辑没有太多关系，控制应用展示的纯前端逻辑
  */
 // import { observable, computed, autorun, action } from 'mobx'
-import { observable, action } from 'mobx'
+import { observable, action, toJS } from 'mobx'
 import { post, get } from '../util/http'
 
 export default class AppState {
@@ -19,6 +19,12 @@ export default class AppState {
       syncing: false,
       list: [],
     },
+  }
+
+  init({ user }) {
+    if (user) {
+      this.user = user
+    }
   }
   // 执行登录操作，接收accessToken
   @action login(accessToken) {
@@ -74,6 +80,12 @@ export default class AppState {
           reject(err)
         })
     })
+  }
+  // 给服务端渲染使用。把observable的数据转化为正常的JS对象
+  toJson() {
+    return {
+      user: toJS(this.user),
+    }
   }
 }
 

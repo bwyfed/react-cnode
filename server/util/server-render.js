@@ -19,6 +19,7 @@ const getStoreState = (stores) => {
 }
 
 module.exports = (bundle, template, req, res) => {
+  const { user } = req.session
   return new Promise((resolve, reject) => {
     const createStoreMap = bundle.createStoreMap
     const createApp = bundle.default
@@ -27,6 +28,12 @@ module.exports = (bundle, template, req, res) => {
     const sheetsRegistry = new SheetsRegistry()
     const jss = create(preset())
     jss.options.createGenerateClassName = createGenerateClassName
+    // 服务端渲染时，判断session里是否存在user。若存在则更新store里面的数据
+    // 这样在服务端渲染时立即可以拿到user信息
+    if (user) {
+      stores.appState.user.isLogin = true // 表明登录成功了
+      stores.appState.user.info = user
+    }
     //保持和客户端一致，不会导致样式变化
     const theme = createMuiTheme({
       palette: {

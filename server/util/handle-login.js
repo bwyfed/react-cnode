@@ -15,9 +15,11 @@ router.post('/login', function (req, res, next) {
         // 在req.session上存放数据user，保存接口返回登录信息
         req.session.user = {
           accessToken: req.body.accessToken,
-          loginName: response.data.loginname,
+          // loginName: response.data.loginname,
+          loginname: response.data.loginname,
           id: response.data.id,
-          avatarUrl: response.data.avatar_url
+          // avatarUrl: response.data.avatar_url
+          avatar_url: response.data.avatar_url
         }
         res.json({
           success: true,
