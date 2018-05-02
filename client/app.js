@@ -38,7 +38,7 @@ const createApp = (TheApp) => {
   return Main
 }
 // 将各种数据的mobx实例注入到App组件中
-const appState = new AppState(initialState.appState)
+const appState = new AppState()
 appState.init(initialState.appState)
 const topicStore = new TopicStore(initialState.topicStore);
 const root = document.getElementById('root');

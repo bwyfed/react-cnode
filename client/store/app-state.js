@@ -20,7 +20,7 @@ export default class AppState {
       list: [],
     },
   }
-
+  // 因为AppState并没有构造方法，所以换种方式初始化数据
   init({ user }) {
     if (user) {
       this.user = user
