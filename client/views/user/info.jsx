@@ -43,12 +43,8 @@ class UserInfo extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.user.isLogin) { // 如果没有登录，则要跳转到登录页面
-      this.context.router.history.replace('/user/login')
-    } else { // 如果已经登录了，则要获取加载的数据
-      this.props.appState.getUserDetail()
-      this.props.appState.getUserCollection()
-    }
+    this.props.appState.getUserDetail()
+    this.props.appState.getUserCollection()
   }
   // 点击某个话题，进入话题详情页
   goToTopic(id) {

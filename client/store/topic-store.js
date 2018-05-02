@@ -73,9 +73,9 @@ class TopicStore {
         tab, // 这里之前写错为tabs，传入tab表示获取哪个标签的数据
       }).then((resp) => {
         if (resp.success) {
-          resp.data.forEach((topic) => {
-            this.addTopic(topic)
-          })
+          this.topics = resp.data.map(topic => (
+            new Topic(createTopic(topic))
+          ))
           resolve()
         } else {
           reject()
