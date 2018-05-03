@@ -6,8 +6,10 @@ import { withStyles } from 'material-ui/styles'
 
 const styles = {
   root: {
-    margin: 24,
-    marginTop: 80,
+    margin: 0,
+    backgroundColor: 'rgba(255,255,255,0)',
+    height: '100vh',
+    overflow: 'scroll',
   },
 }
 

@@ -39,7 +39,7 @@ const createApp = (TheApp) => {
 }
 // 将各种数据的mobx实例注入到App组件中
 const appState = new AppState()
-appState.init(initialState.appState)
+// appState.init(initialState.appState)
 const topicStore = new TopicStore(initialState.topicStore);
 const root = document.getElementById('root');
 const render = (Component) => {

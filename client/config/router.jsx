@@ -9,6 +9,7 @@ import {
   observer,
 } from 'mobx-react'
 import PropTypes from 'prop-types'
+import Home from '../views/home/index'
 import TopicList from '../views/topic-list/index'
 import TopicDetail from '../views/topic-detail/index'
 import UserInfo from '../views/user/info'
@@ -51,7 +52,8 @@ PrivateRoute.defaultProps = {
 
 export default () => [
   <Route path="/" exact render={() => <Redirect to="/index" />} key="first" />,
-  <Route path="/index" component={TopicList} key="index" />,
+  <Route path="/index" component={Home} key="index" />,
+  <Route path="/list" component={TopicList} key="list" />,
   <Route path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route path="/user/login" exact component={UserLogin} key="user-login" />,
   <InjectedPrivateRoute path="/user/info" exact component={UserInfo} key="user-info" />,
