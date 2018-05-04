@@ -43,11 +43,15 @@ export const homePrimaryStyle = {
     },
   },
   grid1: {
-    padding: '10px',
+    padding: '10px 10px 20px 10px',
   },
   gridItem1: {
     fontSize: '0.32rem',
     color: '#f0e1ab',
+  },
+  grid2: {
+    marginBottom: '30px',
+    padding: '0 3%',
   },
   gridItem2: {
     textAlign: 'center',
@@ -55,6 +59,7 @@ export const homePrimaryStyle = {
   gridItem2Btn: {
     width: '80%',
     height: 'auto',
+    padding: 0,
     // backgroundRepeat: 'no-repeat',
     // backgroundSize: 'cover',
     '& span': {
@@ -79,6 +84,27 @@ export const homePrimaryStyle = {
   },
   textRight: {
     textAlign: 'right',
+  },
+  grid3: {
+    paddingBottom: '30px',
+  },
+  gridItem3: {
+    marginBottom: '30px',
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 0,
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  },
+  gridItem3Btn: {
+    width: '75%',
+    fontSize: '0.32rem',
+    lineHeight: '0.54rem',
+    fontWeight: 'bold',
+    color: 'black',
+    borderRadius: '6px',
+    backgroundColor: '#f9de4a',
   },
   tab: {
     textAlign: 'center',

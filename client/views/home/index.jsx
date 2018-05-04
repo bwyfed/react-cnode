@@ -9,8 +9,8 @@ import Grid from 'material-ui/Grid'
 // import Tabs, { Tab } from 'material-ui/Tabs'
 // import List from 'material-ui/List'
 // import { CircularProgress } from 'material-ui/Progress'
-// import Button from 'material-ui/Button'
-import IconButton from 'material-ui/IconButton'
+import Button from 'material-ui/Button'
+// import IconButton from 'material-ui/IconButton'
 // import HomeIcon from '@material-ui/icons/Home'
 import { withStyles } from 'material-ui/styles'
 // import AppState from '../../store/app-state'
@@ -39,21 +39,33 @@ const interComponent = ({ classes }) => (
         排行榜
       </Grid>
     </Grid>
-    <Grid container align="stretch" className={classes.grid2}>
+    <Grid container className={classes.grid2}>
       <Grid item xs={4} md={4} className={`${classes.gridItem2}`}>
-        <IconButton className={`${classes.gridItem2Btn}`} color="inherit">
+        <Button className={`${classes.gridItem2Btn}`} color="inherit" fullWidth>
           <img src={btnMusic} className={classes.gridItem2BtnImgMusic} alt="" />
-        </IconButton>
+        </Button>
       </Grid>
       <Grid item xs={4} md={4} className={`${classes.gridItem2}`}>
-        <IconButton className={`${classes.gridItem2Btn}`} color="inherit">
+        <Button className={`${classes.gridItem2Btn}`} color="inherit">
           <img src={btnVideo} className={classes.gridItem2BtnImgVideo} alt="" />
-        </IconButton>
+        </Button>
       </Grid>
       <Grid item xs={4} md={4} className={`${classes.gridItem2}`}>
-        <IconButton className={`${classes.gridItem2Btn}`} color="inherit">
+        <Button className={`${classes.gridItem2Btn}`} color="inherit">
           <img src={btnRead} className={classes.gridItem2BtnImgRead} alt="" />
-        </IconButton>
+        </Button>
+      </Grid>
+    </Grid>
+    <Grid container direction="column" alignItems="center" className={classes.grid3}>
+      <Grid item className={classes.gridItem3}>
+        <Button variant="raised" color="inherit" className={classes.gridItem3Btn}>
+          新人特权
+        </Button>
+      </Grid>
+      <Grid item className={classes.gridItem3}>
+        <Button variant="raised" color="inherit" className={classes.gridItem3Btn}>
+          我为咪咕代言
+        </Button>
       </Grid>
     </Grid>
   </Paper>
