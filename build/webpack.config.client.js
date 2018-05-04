@@ -6,9 +6,9 @@ const webpack = require('webpack')
 const webpackMerge = require('webpack-merge')
 const baseConfig = require('./webpack.base')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//当前环境是否是开发环境
+// 当前环境是否是开发环境
 const isDev = process.env.NODE_ENV === 'development'
-console.log('isDev:'+isDev);
+console.log('isDev:' + isDev);
 const config = webpackMerge(baseConfig, {
 	mode: isDev?'development':'production',
 	entry: {
@@ -34,7 +34,7 @@ if(isDev) {
 		host: '0.0.0.0',	//可以使用任何方式访问,127.0.0.1,IP访问,localhost
 		port: '8888',
 		contentBase: path.join(__dirname, '../dist'),
-		hot: true,
+		hot: true, // 配置HMR
 		overlay: {
 			errors: true
 		},
