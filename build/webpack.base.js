@@ -8,16 +8,16 @@ module.exports = {
     publicPath: '/public/',
   },
   resolve: {
-    extensions: ['.js','.jsx']
+    extensions: ['.js', '.jsx']
   },
   module: {
     rules: [
       {
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.(js|jsx)$/,
         loader: 'eslint-loader',
         exclude: [
-          path.resolve(__dirname,'../node_modules')
+          path.resolve(__dirname, '../node_modules')
         ]
       },
       {

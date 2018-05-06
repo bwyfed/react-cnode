@@ -2,7 +2,7 @@ import React from 'react'
 import { observer, inject } from 'mobx-react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
-import { AppState } from '../../store/app-state'
+import AppState from '../../store/app-state'
 @inject('appState') @observer
 
 export default class TopicList extends React.Component {
@@ -11,7 +11,7 @@ export default class TopicList extends React.Component {
     this.changeName = this.changeName.bind(this)
   }
   componentDidMount() {
-    // do somethin here
+    // do something here
   }
   // 这个方法定义异步的操作数据。执行完这个方法后，才会继续渲染
   // 可以在这里进行数据初始化

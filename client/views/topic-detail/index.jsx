@@ -2,7 +2,7 @@ import React from 'react'
 
 export default class TopicDetail extends React.Component {
   componentDidMount() {
-    // do somethin here
+    // do something here
   }
 
   render() {

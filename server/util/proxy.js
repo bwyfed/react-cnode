@@ -4,9 +4,9 @@ const querystring = require('query-string')
 const baseUrl = 'https://cnodejs.org/api/v1'
 
 module.exports = function (req, res, next) {
-  const path = req.path;  // 接口地址
-  const user = req.session.user || {}; // 用户有没有登录
-  const needAccessToken = req.query.needAccessToken;  // 判断接口是否需要accessToken，由?needAccessToken=true传递过来
+  const path = req.path // 接口地址
+  const user = req.session.user || {} // 用户有没有登录
+  const needAccessToken = req.query.needAccessToken // 判断接口是否需要accessToken，由?needAccessToken=true传递过来
 
   if (needAccessToken && !user.accessToken) {
     res.status(401).send({
@@ -21,18 +21,18 @@ module.exports = function (req, res, next) {
   if (query.needAccessToken) delete query.needAccessToken
   axios(`${baseUrl}${path}`, {
     method: req.method,
-    params: query,  //传递查询字符串，已经删除了额外的needAccessToken
+    params: query, // 传递查询字符串，已经删除了额外的needAccessToken
     data: querystring.stringify(Object.assign({}, req.body, {
       accesstoken: (needAccessToken && req.method === 'POST') ? user.accessToken : ''
     })),
-    //Cnode 部分API只能用form格式。把所有数据格式设置为form格式。
+    // Cnode 部分API只能用form格式。把所有数据格式设置为form格式。
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   }).then(response => {
     // 原封不动的返回给客户端
     if (response.status === 200) {
-      res.send(response.data);
+      res.send(response.data)
     } else {
       res.status(response.status).send(response.data)
     }

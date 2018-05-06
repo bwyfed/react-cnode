@@ -13,14 +13,15 @@ const path = require('path')
 const isDev = process.env.NODE_ENV === 'development'
 
 const app = express()
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json()) // 把application/json格式的数据转换成req.body上的数据
+app.use(bodyParser.urlencoded({ extended: false })) // 表单请求的数据，转换成req.body上的数据
+// 设置session用于保存accessToken等信息
 app.use(session({
   maxAge: 10 * 60 * 1000,
   name: 'tid',
   resave: false,
   saveUninitialized: false,
-  secret: 'react cnode class'
+  secret: 'react cnode class' // 字符串用于加密cookie
 }))
 
 app.use(favicon(path.join(__dirname, '../favicon.ico')))
@@ -38,7 +39,7 @@ if (!isDev) {
     // res.send(sendString);
   })
 } else {
-  const devStatic = require('./util/dev.static')
+  const devStatic = require('./util/dev-static')
   devStatic(app)
 }
 // 处理错误

@@ -9,10 +9,10 @@ import App from './views/App'
 import { createStoreMap } from './store/store'
 // 使用静态渲染。让mobx在服务端渲染的时候不会重复数据变换
 useStaticRendering(true);
-export default (stores, routerContent, url) =>
+export default (stores, routerContext, url) =>
   (
     <Provider {...stores}>
-      <StaticRouter context={routerContent} location={url}>
+      <StaticRouter context={routerContext} location={url}>
         <App />
       </StaticRouter>
     </Provider>

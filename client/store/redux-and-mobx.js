@@ -12,11 +12,11 @@ const add = (num) => {
   }
 }
 // 初始状态
-const initState = {
+const initialState = {
   count: 0,
 }
 //传入初始状态，action
-const reducers = (state = initState, action) => {
+const reducers = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ACTION:
       return Object.assign({}, state, {

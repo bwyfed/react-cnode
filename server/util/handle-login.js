@@ -10,18 +10,18 @@ router.post('/login', function (req, res, next) {
   axios.post(`${baseUrl}/accesstoken`, {
     accesstoken: req.body.accessToken
   })
-    .then(response => {
-      if (response.status === 200 && response.data.success) {
+    .then(resp => {
+      if (resp.status === 200 && resp.data.success) {
         // 在req.session上存放数据user，保存接口返回登录信息
         req.session.user = {
           accessToken: req.body.accessToken,
-          loginName: response.data.loginname,
-          id: response.data.id,
-          avatarUrl: response.data.avatar_url
+          loginName: resp.data.loginname,
+          id: resp.data.id,
+          avatarUrl: resp.data.avatar_url
         }
         res.json({
           success: true,
-          data: response.data
+          data: resp.data
         })
       }
     })
@@ -29,10 +29,10 @@ router.post('/login', function (req, res, next) {
       if (err.response) { // 接口有返回，是业务逻辑的错误
         res.json({
           success: false,
-          data: err.response.data  // err.response是个非常大的对象，无法串行化
+          data: err.response.data // err.response是个非常大的对象，无法串行化
         })
       } else {
-        next(err)   //把错误抛给全局错误处理器来处理
+        next(err) // 把错误抛给全局错误处理器来处理
       }
     })
 })

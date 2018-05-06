@@ -29,7 +29,7 @@ const render = (Component) => {
 render(App);
 if (module.hot) {
   module.hot.accept('./views/App', () => {
-		const NextApp = require('./views/App').default; //eslint-disable-line
+    const NextApp = require('./views/App').default; //eslint-disable-line
     // ReactDOM.hydrate(<NextApp />, document.getElementById('root'));
     render(NextApp);
   })

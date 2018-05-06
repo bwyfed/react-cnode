@@ -32,14 +32,14 @@ export default class AppState {
 // const appState = new AppState()
 // 测试代码，观察状态更新
 /*
-// 一旦appState有更新了，就会重新调用autorun
-autorun(() => {
-  console.log(appState.msg)
-})
-// 测试,每隔一秒更新下store
-setInterval(() => {
-  appState.add()
-}, 1000)
-*/
+ // 一旦appState有更新了，就会重新调用autorun
+ autorun(() => {
+ console.log(appState.msg)
+ })
+ // 测试,每隔一秒更新下store
+ setInterval(() => {
+ appState.add()
+ }, 1000)
+ */
 // export default appState
 
