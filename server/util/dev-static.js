@@ -6,7 +6,7 @@ const path = require('path')
 const webpack = require('webpack')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
-const asyncBootstrap = require('react-async-bootstrapper').default
+const asyncBootstrap = require('react-async-bootstrapper')
 const ReactDomServer = require('react-dom/server')
 
 const serverConfig = require('../../build/webpack.config.server')
@@ -41,9 +41,9 @@ serverCompiler.watch({}, (err, stats) => {
   const m = new Module()
   console.log(123)
   m._compile(bundle, 'server-entry.js') // 用module解析js的内容，一定要指定module的名字
+  console.log(456)
   serverBundle = m.exports.default // 通过exports来挂载模块里面的东西
   createStoreMap = m.exports.createStoreMap
-  console.log(456)
 })
 
 const getStoreState = (stores) => {
@@ -69,9 +69,10 @@ module.exports = function (app) {
           res.end()
           return
         }
+        console.log(stores.appState.count)
         // 处理header部分，增加SEO功能
         // const helmet = Helmet.rewind()
-        const state = getStoreState(stores)
+        // const state = getStoreState(stores)
         const content = ReactDomServer.renderToString(app)
         res.send(template.replace('<!-- app -->', content))
         // const html = ejs.render(template, {

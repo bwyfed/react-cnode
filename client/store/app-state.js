@@ -42,4 +42,3 @@ export default class AppState {
  }, 1000)
  */
 // export default appState
-

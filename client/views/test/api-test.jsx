@@ -5,9 +5,9 @@ import axios from 'axios'
 export default class TestApi extends React.Component {
   getTopics() {
     axios.get('/api/topics')
-      .then(resp => {
-        console.log(resp)
-      }).catch(err => {
+    .then(resp => {
+      console.log(resp)
+    }).catch(err => {
       console.log(err)
     })
   }
@@ -22,9 +22,9 @@ export default class TestApi extends React.Component {
   }
   markAll() {
     axios.post('/api/message/mark_all?needAccessToken=true')
-      .then(resp => {
-        console.log(resp)
-      }).catch(err => {
+    .then(resp => {
+      console.log(resp)
+    }).catch(err => {
       console.log(err)
     })
   }
