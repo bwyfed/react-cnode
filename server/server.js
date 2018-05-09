@@ -42,7 +42,7 @@ if (!isDev) {
   const devStatic = require('./util/dev-static')
   devStatic(app)
 }
-// 处理错误
+// express全局处理错误
 app.use(function(error, req, res, next) {
   console.log(error);
   res.status(500).send(error)
