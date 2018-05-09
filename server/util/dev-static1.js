@@ -41,9 +41,7 @@ serverCompiler.watch({}, (err, stats) => {
   )
   const bundle = mfs.readFileSync(bundlePath, 'utf-8') // 读出的是一个string，而不是一个模块
   const m = new Module()
-  console.log(123)
   m._compile(bundle, 'server-entry.js') // 用module解析js的内容，一定要指定module的名字
-  console.log(456)
   serverBundle = m.exports.default // 通过exports来挂载模块里面的东西
   createStoreMap = m.exports.createStoreMap
 })
@@ -83,8 +81,6 @@ module.exports = function (app) {
           return
         }
         console.log(stores.appState.count)
-        // 处理header部分，增加SEO功能
-        // const helmet = Helmet.rewind()
         const state = getStoreState(stores)
         const content = ReactDomServer.renderToString(app)
         // res.send(template.replace('<!-- app -->', content))
@@ -93,15 +89,6 @@ module.exports = function (app) {
           initialState: serialize(state),
         })
         res.send(html)
-        // const html = ejs.render(template, {
-        //   appString: content,
-        //   initialState: serialize(state),
-        //   meta: helmet.meta.toString(),
-        //   title: helmet.title.toString(),
-        //   style: helmet.style.toString(),
-        //   link: helmet.link.toString(),
-        // })
-        // res.send(html)
       })
 
     })
